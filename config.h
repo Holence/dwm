@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "monospace:pixelsize=14" };
+static const char dmenufont[]       = "monospace:pixelsize=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -64,9 +64,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 // Win+p open dmenu
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 // Win+Shit+Enter open terminal
-static const char *termcmd[]  = { "xfce4-terminal", NULL };
+static const char *termcmd[]  = { "gnome-terminal", NULL };
 // Win+e open files
-static const char *filescmd[]  = { "thunar", NULL };
+static const char *filescmd[]  = { "nautilus", NULL };
 /* volume */
 static const char *volume_down[]  = { "amixer", "set", "Master", "5%-", NULL };
 static const char *volume_up[]  = { "amixer", "set", "Master", "5%+", NULL };
