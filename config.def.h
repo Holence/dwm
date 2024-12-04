@@ -47,6 +47,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
+// use `xmodmap -pm` to check modifier map
 #define NOMODKEY NoEventMask
 // #define MODKEY Mod1Mask // Alt
 #define MODKEY Mod4Mask // Win
@@ -109,6 +110,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	
+	// /usr/include/X11/XF86keysym.h
 	{ NoEventMask,                  XF86XK_AudioMute,          spawn, {.v = volume_toggle } },
 	{ NoEventMask,                  XF86XK_AudioLowerVolume,   spawn, {.v = volume_down } },
 	{ NoEventMask,                  XF86XK_AudioRaiseVolume,   spawn, {.v = volume_up } },
