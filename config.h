@@ -47,6 +47,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
+#define NOMODKEY NoEventMask
 // #define MODKEY Mod1Mask // Alt
 #define MODKEY Mod4Mask // Win
 
@@ -78,31 +79,40 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = filescmd } },
+	
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.02} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.02} },
+
+	{ MODKEY,                       XK_bracketright,      focusstack,     {.i = +1 } }, // `Win` + `]`
+	{ MODKEY,                       XK_bracketleft,       focusstack,     {.i = -1 } }, // `Win` + `[`
+	
+	{ MODKEY,                       XK_equal,  incnmaster,     {.i = +1 } }, // `Win` + `+`
+	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } }, // `Win` + `-`
+	
+	{ MODKEY,                       XK_semicolon,      setmfact,       {.f = -0.02} }, // `Win` + `;`
+	{ MODKEY,                       XK_apostrophe,     setmfact,       {.f = +0.02} }, // `Win` + `'`
+	
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	// { MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
+	
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_F11,    spawn,          {.v = volume_toggle } },
-	{ MODKEY,                       XK_F12,    spawn,          {.v = volume_down } },
-	{ MODKEY,                       XK_Insert, spawn,          {.v = volume_up } },
+	
+	{ NoEventMask,                  XF86XK_AudioMute,          spawn, {.v = volume_toggle } },
+	{ NoEventMask,                  XF86XK_AudioLowerVolume,   spawn, {.v = volume_down } },
+	{ NoEventMask,                  XF86XK_AudioRaiseVolume,   spawn, {.v = volume_up } },
+	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -112,6 +122,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+	
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 

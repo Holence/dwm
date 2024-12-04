@@ -20,7 +20,7 @@ dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz keysym_monitor
 
 dist: clean
 	mkdir -p dwm-${VERSION}
@@ -41,5 +41,9 @@ install: all
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
+
+# a tool for checking the X11 keysym
+keysym_monitor: keysym_monitor.c
+	gcc keysym_monitor.c -o keysym_monitor -lX11 
 
 .PHONY: all clean dist install uninstall
