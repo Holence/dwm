@@ -28,7 +28,7 @@ sudo make clean install
 
 `sudo systemctl set-default multi-user.target` 默认进入tty界面
 
-网上都说创建`~/.xinitrc`，在里面写自定义的启动项+`exec dwm`，然后在tty中用`starx`启动，但总是有些软件在进入dwm后会“水土不服”。所以一步一步看看`startx`是怎么启动的。
+网上都说创建`~/.xinitrc`，在里面写自定义的启动项+`exec dwm`，然后在tty中用`starx`启动，但总是有些软件在进入dwm后会“水土不服”。所以一步一步看看`startx`是怎么启动的（这里只考虑用`startx`启动的方法，`startx client -- server`的情况不知道咋回事）。
 
 `man startx`，下面这几个文件是试图执行的顺序
 ```sh
@@ -58,20 +58,24 @@ USRRESOURCES=$HOME/.Xresources
 USERXSESSION=$HOME/.xsession
 USERXSESSIONRC=$HOME/.xsessionrc
 ALTUSERXSESSION=$HOME/.Xsession
+# ...
+for SESSIONFILE in $SESSIONFILES; do
+    . $SESSIONFILE
+done
 ```
 
 最后去`/etc/X11/Xsession.d`目录下按顺序执行各个脚本（`man Xsession` "SUPPLIED SCRIPTS"）：
 - /etc/X11/Xsession.d/20x11-common_process-args
-    > 如果只是`startx`（不带任何参数），那就什么都不做
+    > 从`/etc/X11/Xsession`进来时额外参数为0个，这里肯定是什么都不做
 - /etc/X11/Xsession.d/30x11-common_xresources
     > 加载`xrdb -merge $USRRESOURCES`，也就是`xrdb -merge ~/.Xresources`，里面可以指定Cursor的theme
 - /etc/X11/Xsession.d/35x11-common_xhost-local
 - /etc/X11/Xsession.d/40x11-common_xsessionrc
     > `. "$USERXSESSIONRC"`，也就是执行`~/.xsessionrc`（这里面不应该有`exec`，如果有的话，下面的配置就不会执行了）
 - /etc/X11/Xsession.d/50x11-common_determine-startup
-    > 如果环境变量中`STARTUP`为空（`STARTUP=dwm startx`，到这里时`STARTUP`就非空），则尝试把`~/.xsession`或`~/.Xsession`作为`STARTUP`
+    > 如果环境变量中`STARTUP`为空，则尝试把`~/.xsession`或`~/.Xsession`作为`STARTUP`。如果这两个文件不存在，则设置`STARTUP`为`x-session-manager`或`x-window-manager`或`x-terminal-emulator`
     > 
-    > 如果这两个文件不存在，则设置`STARTUP`为`x-session-manager`或`x-window-manager`或`x-terminal-emulator`
+    > 如果环境变量中`STARTUP`非空，则什么都不做（用`STARTUP=program_name startx`启动）
 - /etc/X11/Xsession.d/90x11-common_ssh-agent
 - /etc/X11/Xsession.d/99x11-common_start
     > `exec $STARTUP`最终运行`STARTUP`
@@ -80,9 +84,11 @@ ALTUSERXSESSION=$HOME/.Xsession
 >
 > `/etc/X11/Xsession.d`下还包括你装的软件的启动脚本，比如`20dbus_xdg-runtime`、`70im-config_launch`等等，如果不执行这些，自然就会出现某些软件“水土不服”的现象
 
-所以最“非侵入性”的启动方法应该为：
+所以“非侵入性”的启动方法应该为：
 - `~/.xsessionrc`中设置自定义的启动项（最后不用`exec dwm`），使用`STARTUP=dwm startx`进行启动
+    > 这种就是在共享`~/.xsessionrc`中的自定义启动项（选择显示器、设置背景、色温等），你还可以尝试`STARTUP=yandex-browser startx`等，只启动一个用户进程
 - 或，`~/.xsession`中设置自定义的启动项+最后一句`exec dwm`，使用`startx`进行启动
+    > 此时再`STARTUP=yandex-browser startx`就没有执行自定义的启动项了，就仅仅是启动了这个进程
 
 ## 使用方法
 
@@ -111,9 +117,9 @@ sudo apt install arandr feh redshift
 
 > 有些unicode的符号显示不出来，去安装[nerd fonts](https://github.com/ryanoasis/nerd-fonts)
 
-## 自动选择屏幕
+## 自动选择显示器
 
-`xrandr`设置屏幕，用`arandr`GUI软件很方便，可以导出`xrandr`脚本，供`~/.xsession`使用
+`xrandr`设置显示器，用`arandr`GUI软件很方便，可以导出`xrandr`脚本，供`~/.xsession`使用
 
 ## 自动设置背景
 

@@ -1,2 +1,3 @@
 *.o
 dwm
+keysym_monitor
