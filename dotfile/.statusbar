@@ -1,0 +1,205 @@
+usbmon() {
+    usb1=$(lsblk -la | awk '/sdb/ { print $1 }')
+    usb1mounted=$(lsblk -la | awk '/sdb/ { print $7 }')
+
+    if [ "$usb1" ]; then
+        if [ -z "$usb1mounted" ]; then
+            echo " |"
+        else
+            echo " $usb1 |"
+        fi
+    fi
+}
+
+fsmon() {
+    ROOTPART=$(df -h | awk '/\/$/ { print $3}')
+    HOMEPART=$(df -h | awk '/\/home/ { print $3}')
+    SWAPPART=$(cat /proc/swaps | awk '/\// { print $4 }')
+
+    echo "   $ROOTPART    $HOMEPART    $SWAPPART"
+}
+
+ram() {
+    used_mem=$(free -h | awk '/Mem:/ { print $3 }' | cut -f1 -d 'i')
+    total_mem=$(free -h | awk '/Mem:/ { print $2 }' | cut -f1 -d 'i')
+
+    echo "  $used_mem/$total_mem"
+}
+
+cpu() {
+    read -r cpu a b c previdle rest < /proc/stat
+    prevtotal=$((a+b+c+previdle))
+    sleep 0.2 & # parallel
+    wait
+    read -r cpu a b c idle rest < /proc/stat
+    total=$((a+b+c+idle))
+    cpu=$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))
+    echo " $cpu%"
+}
+
+network() {
+    output=$(ip route | grep default)
+
+    if echo "$output" | grep -q "dev e"; then
+        echo " "
+    else
+        if echo "$output" | grep -q "dev w"; then
+            echo " "
+        else
+            echo "󰕑 "
+        fi
+    fi
+}
+
+volume_pa() {
+    muted=$(pactl list sinks | awk '/Mute:/ { print $2 }')
+    vol=$(pactl list sinks | grep Volume: | awk 'FNR == 1 { print $5 }' | cut -f1 -d '%')
+
+    if [ "$muted" = "yes" ]; then
+        echo " "
+    else
+        if [ "$vol" -ge 65 ]; then
+            echo "  $vol%"
+        elif [ "$vol" -ge 20 ]; then
+            echo " $vol%"
+        elif [ "$vol" -ge 0 ]; then
+            echo " $vol%"
+        fi
+    fi
+
+}
+
+volume_alsa() {
+    # Get the volume percentage
+    vol=$(amixer get Master | grep -oP '\[\d+%\]' | head -1 | tr -d '[]%' || echo 0)
+    # Check if sound is muted
+    on=$(amixer get Master | grep -c '\[on\]')
+
+    if [ "$on" -eq 0 ]; then
+        echo " "
+    else
+        if [ "$vol" -ge 65 ]; then
+            echo "  $vol%"
+        elif [ "$vol" -ge 20 ]; then
+            echo " $vol%"
+        elif [ "$vol" -ge 0 ]; then
+            echo " $vol%"
+        fi
+    fi
+}
+
+
+clock() {
+    # dte=$(date +"%Y/%m/%d")
+    # time=$(date +"%H:%M")
+
+    # echo " $dte  $time"
+    echo "$(date +" %Y/%m/%d %a %H:%M")"
+}
+
+
+battery()
+{
+    CHARGING_ICON=' '
+    WARNING_ICON=' '
+    BATTERY_FULL_ICON=''
+    BATTERY_2_ICON=''
+    BATTERY_3_ICON=''
+    BATTERY_4_ICON=''
+
+    FULL_AT=98
+
+    BAT_ICON=""
+    ICON=""
+    # The vast majority of people only use one battery.
+
+    if [ -d /sys/class/power_supply/BAT0 ]; then
+        capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+        charging=$(cat /sys/class/power_supply/BAT0/status)
+        if [ "$charging" = "Charging" ]; then
+            ICON="$CHARGING_ICON"
+        elif [ $capacity -le 25 ]; then
+            ICON="$WARNING_ICON"
+        fi
+
+        if [ $capacity -ge $FULL_AT ]; then
+            BAT_ICON=$BATTERY_FULL_ICON
+        elif [ $capacity -le 25 ]; then
+            BAT_ICON=$BATTERY_4_ICON
+        elif [ $capacity -le 60 ]; then
+            BAT_ICON=$BATTERY_3_ICON
+        elif [ $capacity -le $FULL_AT ]; then
+            BAT_ICON=$BATTERY_2_ICON
+        fi
+    fi
+    echo "$ICON$BAT_ICON $capacity%"
+}
+
+
+traffic()
+{
+    RECEIVE_PREFIX=' '
+    TRANSMIT_PREFIX=' '
+    R_1=0
+    R_2=0
+    T_1=0
+    T_2=0
+
+    IFACES=$(ls /sys/class/net/)
+
+    for IFACE in $IFACES; do
+        if [ $IFACE != "lo" ]; then
+            T_1=$(($(cat /sys/class/net/$IFACE/statistics/tx_bytes) + $T_1))
+            R_1=$(($(cat /sys/class/net/$IFACE/statistics/rx_bytes) + $R_1))
+        fi
+    done
+
+    sleep 0.2 & # parallel
+    wait
+    
+    for IFACE in $IFACES; do
+        if [ $IFACE != "lo" ]; then
+            T_2=$(($(cat /sys/class/net/$IFACE/statistics/tx_bytes) + $T_2))
+            R_2=$(($(cat /sys/class/net/$IFACE/statistics/rx_bytes) + $R_2))
+        fi
+    done
+
+    R=$((($R_2 - $R_1) * 5)) # 1s / 0.2s = 5
+    if [ $R -lt 1024 ]; then
+        R_Text="${RECEIVE_PREFIX}${R}B/s"
+    else
+        R=$((R / 1024))
+        if [ $R -lt 1024 ]; then
+            R_Text="${RECEIVE_PREFIX}${R}KB/s"
+        else
+            R=$((R / 1024))
+            R_Text="${RECEIVE_PREFIX}${R}MB/s"
+        fi
+    fi
+
+    T=$((($T_2 - $T_1) * 5)) # 1s / 0.2s = 5
+    if [ $T -lt 1024 ]; then
+        T_Text="${TRANSMIT_PREFIX}${T}B/s"
+    else
+        T=$((T / 1024))
+        if [ $T -lt 1024 ]; then
+            T_Text="${TRANSMIT_PREFIX}${T}KB/s"
+        else
+            T=$((T / 1024))
+            T_Text="${TRANSMIT_PREFIX}${T}MB/s"
+        fi
+    fi
+
+    echo "$T_Text  $R_Text"
+
+}
+
+main() {
+    while true; do
+        xsetroot -name "  $(traffic &)  |  $(ram &)  |  $(cpu &)  |  $(network &)  |  $(battery &)  |  $(volume_alsa &)  |  $(clock &)  "
+        wait
+        sleep 0.4
+    done
+}
+
+main
