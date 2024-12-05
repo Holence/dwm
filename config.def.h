@@ -73,6 +73,9 @@ static const char *filescmd[]  = { "nautilus", NULL };
 static const char *volume_down[]  = { "amixer", "set", "Master", "5%-", NULL };
 static const char *volume_up[]  = { "amixer", "set", "Master", "5%+", NULL };
 static const char *volume_toggle[]  = { "amixer", "set", "Master", "toggle", NULL };
+/* brightness */
+static const char *brightness_down[] = { "xbacklight", "-dec", "10", NULL };
+static const char *brightness_up[]   = { "xbacklight", "-inc", "10", NULL };
 
 
 static const Key keys[] = {
@@ -105,15 +108,18 @@ static const Key keys[] = {
 	
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	// { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	// { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+	// { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+	// { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	
 	// /usr/include/X11/XF86keysym.h
 	{ NoEventMask,                  XF86XK_AudioMute,          spawn, {.v = volume_toggle } },
 	{ NoEventMask,                  XF86XK_AudioLowerVolume,   spawn, {.v = volume_down } },
 	{ NoEventMask,                  XF86XK_AudioRaiseVolume,   spawn, {.v = volume_up } },
+	
+	{ NoEventMask,                  XF86XK_MonBrightnessDown,  spawn, {.v = brightness_down } },
+	{ NoEventMask,                  XF86XK_MonBrightnessUp,    spawn, {.v = brightness_up } },
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
