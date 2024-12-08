@@ -4,12 +4,13 @@ redshift -O 4000
 
 # use ARandR to generate a xrandr script
 . ~/.xrandr
+xrandr --dpi 100
 
 # set a background photo
 feh --bg-fill ~/bg.jpg
 
 # statusbar loop
-bash ~/.statusbar &
+~/.statusbar &
 
 # to dwm
 exec dwm

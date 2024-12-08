@@ -1,3 +1,5 @@
+#!/bin/bash
+
 usbmon() {
     usb1=$(lsblk -la | awk '/sdb/ { print $1 }')
     usb1mounted=$(lsblk -la | awk '/sdb/ { print $7 }')
