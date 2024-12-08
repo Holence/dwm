@@ -5,7 +5,7 @@ read dwm/README
 [dwm - ArchWiki](https://wiki.archlinux.org/title/Dwm)
 
 ```sh
-sudo apt install libx11-dev libxft-dev libxinerama-dev
+sudo apt install libx11-dev libxft-dev libxinerama-dev libxrandr-dev
 sudo apt install amixer xbacklight # 设置音量、亮度
 git clone https://git.suckless.org/dwm
 # Alt+P a quick menu
@@ -21,6 +21,9 @@ cd dwm
 make && sudo make install
 
 cd dmenu
+sudo make clean install
+
+cd slock
 sudo make clean install
 ```
 
