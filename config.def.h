@@ -50,8 +50,8 @@ static const Layout layouts[] = {
 /* key definitions */
 // use `xmodmap -pm` to check modifier map
 #define NOMODKEY NoEventMask
-// #define MODKEY Mod1Mask // Alt
 #define MODKEY Mod4Mask // Win
+#define ALTKEY Mod1Mask // Alt
 
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
@@ -89,6 +89,7 @@ static const Key keys[] = {
 
 	{ MODKEY,                       XK_bracketright,      focusstack,     {.i = +1 } }, // `Win` + `]`
 	{ MODKEY,                       XK_bracketleft,       focusstack,     {.i = -1 } }, // `Win` + `[`
+	{ ALTKEY,                       XK_Tab,               focusstack,     {.i = -1 } }, // `Alt` + `Tab`
 	
 	{ MODKEY,                       XK_equal,  incnmaster,     {.i = +1 } }, // `Win` + `+`
 	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } }, // `Win` + `-`
