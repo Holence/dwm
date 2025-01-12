@@ -69,7 +69,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 // Win+Shit+Enter open terminal
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 // Win+e open files
-static const char *filescmd[]  = { "nautilus", NULL };
+static const char *filescmd[]  = { "thunar", NULL };
 /* volume */
 static const char *volume_down[]  = { "amixer", "set", "Master", "5%-", NULL };
 static const char *volume_up[]  = { "amixer", "set", "Master", "5%+", NULL };
