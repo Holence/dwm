@@ -5,8 +5,8 @@ read dwm/README
 [dwm - ArchWiki](https://wiki.archlinux.org/title/Dwm)
 
 ```sh
-sudo apt install libx11-dev libxft-dev libxinerama-dev libxrandr-dev
-sudo apt install amixer xbacklight # 设置音量、亮度
+sudo apt install libx11-dev libxft-dev libxinerama-dev libxrandr-dev xorg
+sudo apt install alsa-utils xbacklight
 git clone https://git.suckless.org/dwm
 # Alt+P a quick menu
 git clone https://git.suckless.org/dmenu
@@ -109,7 +109,7 @@ git apply ./dwm-deck-6.2.diff
 # 自定义的启动项
 
 ```
-sudo apt install arandr feh redshift
+sudo apt install x11-xserver-utils feh redshift
 ```
 
 ## statusbar
