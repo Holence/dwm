@@ -67,7 +67,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 // Win+p open dmenu
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, "-p", " Dmenu", NULL };
 // Win+Shit+Enter open terminal
-static const char *termcmd[]  = { "gnome-terminal", NULL };
+static const char *termcmd[]  = { "xfce4-terminal", NULL };
 // Win+e open files
 static const char *filescmd[]  = { "thunar", NULL };
 /* volume */
