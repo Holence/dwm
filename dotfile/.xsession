@@ -6,6 +6,7 @@ redshift -O 4000
 
 # use ARandR to generate a xrandr script
 # . ~/.xrandr
+# xrandr --output eDP-1 --off
 xrandr --dpi 100
 
 # set a background photo
