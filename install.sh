@@ -1,6 +1,16 @@
 #!/bin/bash
 sudo apt install libx11-dev libxft-dev libxinerama-dev libxrandr-dev xorg
-sudo apt install alsa-utils xbacklight
+
+# terminal and file manager
+sudo apt install xfce4-terminal
+sudo apt install thunar
+# amixer
+sudo apt install alsa-utils
+# change backlight
+sudo apt install xbacklight
+# screenshot
+sudo apt install flameshot
+# for .xsession
 sudo apt install x11-xserver-utils feh redshift
 
 sudo make && sudo make install

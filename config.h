@@ -11,11 +11,11 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#163b17";
+static const char col_main[]        = "#2D3644";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeSel]  = { col_gray4, col_main,  col_main  },
 };
 
 /* tagging */
@@ -65,7 +65,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 // Win+p open dmenu
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, "-p", " Dmenu", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_main, "-sf", col_gray4, "-p", " Dmenu", NULL };
 // Win+Shit+Enter open terminal
 static const char *termcmd[]  = { "xfce4-terminal", NULL };
 // Win+e open files
@@ -77,6 +77,8 @@ static const char *volume_toggle[]  = { "amixer", "set", "Master", "toggle", NUL
 /* brightness */
 static const char *brightness_down[] = { "xbacklight", "-dec", "10", NULL };
 static const char *brightness_up[]   = { "xbacklight", "-inc", "10", NULL };
+/* screenshot */
+static const char *screenshot[] = { "flameshot", "gui", NULL };
 
 
 static const Key keys[] = {
@@ -122,6 +124,8 @@ static const Key keys[] = {
 	
 	{ NoEventMask,                  XF86XK_MonBrightnessDown,  spawn, {.v = brightness_down } },
 	{ NoEventMask,                  XF86XK_MonBrightnessUp,    spawn, {.v = brightness_up } },
+	
+	{ MODKEY,                       XK_Delete,                 spawn, {.v = screenshot } },
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
