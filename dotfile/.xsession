@@ -21,7 +21,7 @@ xrandr --dpi 100
 feh --bg-fill ~/bg.jpg
 
 # statusbar loop
-~/.statusbar &
+bash ~/.statusbar &
 
 # to dwm
 exec dwm
