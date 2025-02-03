@@ -11,7 +11,7 @@ sudo apt install xbacklight
 # screenshot
 sudo apt install flameshot
 # for .xsession
-sudo apt install x11-xserver-utils feh redshift
+sudo apt install x11-xserver-utils feh redshift policykit-1-gnome
 
 sudo make && sudo make install
 

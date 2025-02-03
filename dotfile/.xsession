@@ -6,6 +6,8 @@ redshift -O 4000
 
 # use ARandR to generate a xrandr script
 # . ~/.xrandr
+
+# doesn't work after installing nvidia driver!
 close_DP_if_has_two_monitor () {
     s=$(grep "^connected" /sys/class/drm/card*/status)
     n=$(echo "$s" | wc -l)
@@ -18,7 +20,10 @@ close_DP_if_has_two_monitor
 xrandr --dpi 100
 
 # set a background photo
-feh --bg-fill ~/bg.jpg
+feh --no-fehbg --bg-fill ~/bg.jpg
+
+# Start Polkit authentication agent
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 # statusbar loop
 bash ~/.statusbar &
