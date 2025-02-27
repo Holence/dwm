@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export QT_QPA_PLATFORMTHEME=gtk3
+
 # Set color temperature
 redshift -x
 redshift -O 4000
