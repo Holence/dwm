@@ -7,6 +7,8 @@ echo "${COLOR_GREEN}install xfce4-terminal...${COLOR_END}"
 sudo apt install xfce4-terminal
 echo "${COLOR_GREEN}install thunar...${COLOR_END}"
 sudo apt install thunar
+echo "${COLOR_GREEN}install fsearch...${COLOR_END}"
+sudo apt install fsearch
 # amixer
 echo "${COLOR_GREEN}install alsa-utils...${COLOR_END}"
 sudo apt install alsa-utils

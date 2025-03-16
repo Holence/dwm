@@ -28,9 +28,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ NULL,       "qemu",     NULL,       0,            1,           -1 },
+	{ NULL, "io.github.cboxdoerfer.FSearch", "FSearch", 0, 1, -1 },
 };
 
 /* layout(s) */
@@ -70,6 +71,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "xfce4-terminal", NULL };
 // Win+e open files
 static const char *filescmd[]  = { "thunar", NULL };
+// Win+q open fsearch
+static const char *fsearchcmd[]  = { "fsearch", NULL };
 /* volume */
 static const char *volume_down[]  = { "amixer", "set", "Master", "5%-", NULL };
 static const char *volume_up[]  = { "amixer", "set", "Master", "5%+", NULL };
@@ -83,9 +86,10 @@ static const char *screenshot[] = { "flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_e,      spawn,          {.v = filescmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },   // Win+p open dmenu
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },    // Win+Shit+Enter open terminal
+	{ MODKEY,                       XK_e,      spawn,          {.v = filescmd } },   // Win+e open files
+	{ MODKEY,                       XK_q,      spawn,          {.v = fsearchcmd } }, // Win+q open fsearch
 	
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 
