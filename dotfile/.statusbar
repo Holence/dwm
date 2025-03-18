@@ -16,7 +16,7 @@ usbmon() {
 fsmon() {
     ROOTPART=$(df -h | awk '/\/$/ { print $3}')
     HOMEPART=$(df -h | awk '/\/home/ { print $3}')
-    SWAPPART=$(cat /proc/swaps | awk '/\// { print $4 }')
+    SWAPPART=$(awk '/\// { print $4 }' < /proc/swaps)
 
     echo "   $ROOTPART    $HOMEPART    $SWAPPART"
 }
@@ -96,12 +96,11 @@ clock() {
     # time=$(date +"%H:%M")
 
     # echo " $dte  $time"
-    echo "$(date +" %Y/%m/%d %a %H:%M")"
+    date +" %Y/%m/%d %a %H:%M"
 }
 
 
-battery()
-{
+battery() {
     CHARGING_ICON=' '
     WARNING_ICON=' '
     BATTERY_FULL_ICON=''
@@ -120,17 +119,17 @@ battery()
         charging=$(cat /sys/class/power_supply/BAT0/status)
         if [ "$charging" = "Charging" ]; then
             ICON="$CHARGING_ICON"
-        elif [ $capacity -le 25 ]; then
+        elif [ "$capacity" -le 25 ]; then
             ICON="$WARNING_ICON"
         fi
 
-        if [ $capacity -ge $FULL_AT ]; then
+        if [ "$capacity" -ge $FULL_AT ]; then
             BAT_ICON=$BATTERY_FULL_ICON
-        elif [ $capacity -le 25 ]; then
+        elif [ "$capacity" -le 25 ]; then
             BAT_ICON=$BATTERY_4_ICON
-        elif [ $capacity -le 60 ]; then
+        elif [ "$capacity" -le 60 ]; then
             BAT_ICON=$BATTERY_3_ICON
-        elif [ $capacity -le $FULL_AT ]; then
+        elif [ "$capacity" -le $FULL_AT ]; then
             BAT_ICON=$BATTERY_2_ICON
         fi
     fi
@@ -138,8 +137,7 @@ battery()
 }
 
 
-traffic()
-{
+traffic() {
     RECEIVE_PREFIX=' '
     TRANSMIT_PREFIX=' '
     R_1=0
@@ -150,9 +148,9 @@ traffic()
     IFACES=$(ls /sys/class/net/)
 
     for IFACE in $IFACES; do
-        if [ $IFACE != "lo" ]; then
-            T_1=$(($(cat /sys/class/net/$IFACE/statistics/tx_bytes) + $T_1))
-            R_1=$(($(cat /sys/class/net/$IFACE/statistics/rx_bytes) + $R_1))
+        if [ "$IFACE" != "lo" ]; then
+            T_1=$(($(cat /sys/class/net/"$IFACE"/statistics/tx_bytes) + "$T_1"))
+            R_1=$(($(cat /sys/class/net/"$IFACE"/statistics/rx_bytes) + "$R_1"))
         fi
     done
 
@@ -160,13 +158,13 @@ traffic()
     wait
     
     for IFACE in $IFACES; do
-        if [ $IFACE != "lo" ]; then
-            T_2=$(($(cat /sys/class/net/$IFACE/statistics/tx_bytes) + $T_2))
-            R_2=$(($(cat /sys/class/net/$IFACE/statistics/rx_bytes) + $R_2))
+        if [ "$IFACE" != "lo" ]; then
+            T_2=$(($(cat /sys/class/net/"$IFACE"/statistics/tx_bytes) + "$T_2"))
+            R_2=$(($(cat /sys/class/net/"$IFACE"/statistics/rx_bytes) + "$R_2"))
         fi
     done
 
-    R=$((($R_2 - $R_1) * 5)) # 1s / 0.2s = 5
+    R=$((("$R_2" - "$R_1") * 5)) # 1s / 0.2s = 5
     if [ $R -lt 1024 ]; then
         R_Text="${RECEIVE_PREFIX}${R}B/s"
     else
@@ -179,7 +177,7 @@ traffic()
         fi
     fi
 
-    T=$((($T_2 - $T_1) * 5)) # 1s / 0.2s = 5
+    T=$((("$T_2" - "$T_1") * 5)) # 1s / 0.2s = 5
     if [ $T -lt 1024 ]; then
         T_Text="${TRANSMIT_PREFIX}${T}B/s"
     else
@@ -198,7 +196,7 @@ traffic()
 
 main() {
     while true; do
-        xsetroot -name "  $(traffic &)  |  $(ram &)  |  $(cpu &)  |  $(network &)  |  $(battery &)  |  $(volume_alsa &)  |  $(clock &)  "
+        xsetroot -name "$(traffic &)  |  $(ram &)  |  $(cpu &)  |  $(network &)  |  $(battery &)  |  $(volume_alsa &)  |  $(clock &)  |"
         wait
         sleep 0.4
     done
