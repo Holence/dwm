@@ -10,7 +10,7 @@ close_DP_if_has_HDMI () {
     s=$(xrandr)
     has_HDMI=$(echo "$s" | grep -oP '.*HDMI.*? connected')
     if [[ $has_HDMI ]]; then
-    	DP=$(echo "$s" | grep -oP '.*DP.*?(?= connected)')
+        DP=$(echo "$s" | grep -oP '.*DP.*?(?= connected)')
         xrandr --output "$DP" --off
     fi
 }
@@ -27,4 +27,5 @@ feh --no-fehbg --bg-fill ~/bg.jpg
 bash ~/.statusbar &
 
 # to dwm
-exec dwm
+# exec dwm
+exec dwm > /dev/null 2>&1 # dont write .xsession-errors
