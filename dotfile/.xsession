@@ -27,5 +27,5 @@ feh --no-fehbg --bg-fill ~/bg.jpg
 bash ~/.statusbar &
 
 # to dwm
-# exec dwm
-exec dwm > /dev/null 2>&1 # dont write .xsession-errors
+ln -sf /dev/null ~/.xsession-errors # dont write .xsession-errors
+exec dwm

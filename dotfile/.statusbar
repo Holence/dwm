@@ -198,7 +198,7 @@ main() {
     while true; do
         xsetroot -name "$(traffic &)  |  $(ram &)  |  $(cpu &)  |  $(network &)  |  $(battery &)  |  $(volume_alsa &)  |  $(clock &)  |"
         wait
-        sleep 0.4
+        sleep 1
     done
 }
 
