@@ -1,32 +1,36 @@
 #!/bin/bash
-echo "${COLOR_GREEN}install libx11-dev libxft-dev libxinerama-dev libxrandr-dev xorg...${COLOR_END}"
-sudo apt install libx11-dev libxft-dev libxinerama-dev libxrandr-dev xorg
 
-# terminal and file manager
-echo "${COLOR_GREEN}install xfce4-terminal...${COLOR_END}"
-sudo apt install xfce4-terminal
-echo "${COLOR_GREEN}install thunar...${COLOR_END}"
-sudo apt install thunar
-echo "${COLOR_GREEN}install fsearch...${COLOR_END}"
-sudo apt install fsearch
-# amixer
+# for compiling dwm
+echo "${COLOR_GREEN}install libx11-dev libxft-dev libxinerama-dev...${COLOR_END}"
+sudo apt install libx11-dev libxft-dev libxinerama-dev
+
+# for changing volume
 echo "${COLOR_GREEN}install alsa-utils...${COLOR_END}"
 sudo apt install alsa-utils
-# change backlight
-echo "${COLOR_GREEN}install xbacklight...${COLOR_END}"
-sudo apt install xbacklight
-# screenshot
+
+# for changing backlight (laptop)
+# echo "${COLOR_GREEN}install xbacklight...${COLOR_END}"
+# sudo apt install xbacklight
+
+# for screenshot
 echo "${COLOR_GREEN}install flameshot...${COLOR_END}"
 sudo apt install flameshot
-# for .xsession
+
+# for startx
+echo "${COLOR_GREEN}install xinit...${COLOR_END}"
+sudo apt install xinit
+
+# for xrandr (in .xsession) and xsetroot (in .statusbar)
 echo "${COLOR_GREEN}install x11-xserver-utils...${COLOR_END}"
 sudo apt install x11-xserver-utils
+
+# for background image
 echo "${COLOR_GREEN}install feh...${COLOR_END}"
 sudo apt install feh
+
+# for warmer screen color
 echo "${COLOR_GREEN}install redshift...${COLOR_END}"
 sudo apt install redshift
-echo "${COLOR_GREEN}install policykit-1-gnome...${COLOR_END}"
-sudo apt install policykit-1-gnome
 
 sudo make && sudo make install
 
