@@ -17,6 +17,9 @@ close_DP_if_has_HDMI () {
 close_DP_if_has_HDMI
 xrandr --dpi 100
 
+# thunar need lxpolkit when mounting hdd
+lxpolkit &
+
 # set a background photo
 feh --no-fehbg --bg-fill ~/bg.jpg
 

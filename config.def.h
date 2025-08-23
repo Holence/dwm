@@ -88,7 +88,7 @@ static const char *volume_toggle[]  = { "amixer", "set", "Master", "toggle", NUL
 static const char *brightness_down[] = { "xbacklight", "-dec", "10", NULL };
 static const char *brightness_up[]   = { "xbacklight", "-inc", "10", NULL };
 /* screenshot */
-static const char *screenshot[] = { "flameshot", "gui", NULL };
+static const char *screenshot[] = { "xfce4-screenshooter", "-r", NULL };
 
 
 static const Key keys[] = {

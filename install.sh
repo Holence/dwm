@@ -13,8 +13,8 @@ sudo apt install alsa-utils
 # sudo apt install xbacklight
 
 # for screenshot
-echo "${COLOR_GREEN}install flameshot...${COLOR_END}"
-sudo apt install flameshot
+echo "${COLOR_GREEN}install xfce4-screenshooter...${COLOR_END}"
+sudo apt install xfce4-screenshooter
 
 # for startx
 echo "${COLOR_GREEN}install xinit...${COLOR_END}"
