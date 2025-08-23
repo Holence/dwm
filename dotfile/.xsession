@@ -20,9 +20,6 @@ xrandr --dpi 100
 # set a background photo
 feh --no-fehbg --bg-fill ~/bg.jpg
 
-# Start Polkit authentication agent
-/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
-
 # statusbar loop
 bash ~/.statusbar &
 
