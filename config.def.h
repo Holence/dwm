@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 
 /* cool-autostart patch */
 static const char *const autostart[] = {
-	"diodon", NULL, // clipboard daemon
+	"xfce4-clipman", NULL, // clipboard daemon
 	// "swanctlgui_run", NULL,
 	NULL /* terminate */
 };
@@ -96,6 +96,8 @@ static const char *brightness_down[] = { "xbacklight", "-dec", "10", NULL };
 static const char *brightness_up[]   = { "xbacklight", "-inc", "10", NULL };
 /* screenshot */
 static const char *screenshot[] = { "xfce4-screenshooter", "-r", NULL };
+/* clipboard */
+static const char *clipboard[] = { "xfce4-popup-clipman", NULL };
 
 
 static const Key keys[] = {
@@ -143,7 +145,8 @@ static const Key keys[] = {
 	{ NoEventMask,                  XF86XK_MonBrightnessDown,  spawn, {.v = brightness_down } },
 	{ NoEventMask,                  XF86XK_MonBrightnessUp,    spawn, {.v = brightness_up } },
 	
-	{ MODKEY,                       XK_Delete,                 spawn, {.v = screenshot } },
+	{ MODKEY,                       XK_Delete,                 spawn, {.v = screenshot } }, // `Win` + `del`
+	{ MODKEY,                       XK_v,                      spawn, {.v = clipboard } }, // `Win` + `v`
 	
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)

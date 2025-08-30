@@ -30,6 +30,12 @@ sudo apt install x11-xserver-utils
 echo "${COLOR_GREEN}install lxpolkit...${COLOR_END}"
 sudo apt install lxpolkit
 
+# X11 doesn't have a persistent clipboard (copied text will vanish
+# after you close the source program), thus you need to install a 
+# clipboard manager
+echo "${COLOR_GREEN}install xfce4-clipman...${COLOR_END}"
+sudo apt install xfce4-clipman
+
 # for background image
 echo "${COLOR_GREEN}install hsetroot...${COLOR_END}"
 sudo apt install hsetroot
