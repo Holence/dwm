@@ -130,8 +130,10 @@ static const Key keys[] = {
 	// { MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_0,          view,           {.ui = ~0 } }, // Win + 0
+	{ MODKEY,                       XK_grave,      view,           {.ui = ~0 } }, // Win + `
+	{ MODKEY|ShiftMask,             XK_0,          tag,            {.ui = ~0 } }, // Win + Shift + 0
+	{ MODKEY|ShiftMask,             XK_grave,      tag,            {.ui = ~0 } }, // Win + Shift + `
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
@@ -158,7 +160,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_Escape,      quit,           {0} }, // `Win` + `Shift` + `Esc`
 };
 
 /* button definitions */
