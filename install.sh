@@ -24,9 +24,15 @@ sudo apt install xinit
 echo "${COLOR_GREEN}install x11-xserver-utils...${COLOR_END}"
 sudo apt install x11-xserver-utils
 
+# Polkit authentication agent (e.g., lxpolkit, policykit-1-gnome)
+# to handle privilege escalation and prompt for a password when
+# a privileged action, such as mount
+echo "${COLOR_GREEN}install lxpolkit...${COLOR_END}"
+sudo apt install lxpolkit
+
 # for background image
-echo "${COLOR_GREEN}install feh...${COLOR_END}"
-sudo apt install feh
+echo "${COLOR_GREEN}install hsetroot...${COLOR_END}"
+sudo apt install hsetroot
 
 # for warmer screen color
 echo "${COLOR_GREEN}install redshift...${COLOR_END}"

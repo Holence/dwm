@@ -3,8 +3,7 @@
 export QT_QPA_PLATFORMTHEME=gtk3
 
 # Set color temperature
-redshift -x
-redshift -O 4000
+redshift -x -O 4000
 
 close_DP_if_has_HDMI () {
     s=$(xrandr)
@@ -17,11 +16,11 @@ close_DP_if_has_HDMI () {
 close_DP_if_has_HDMI
 xrandr --dpi 100
 
-# thunar need lxpolkit when mounting hdd
+# start polikit agent
 lxpolkit &
 
 # set a background photo
-feh --no-fehbg --bg-fill ~/bg.jpg
+hsetroot -cover ~/bg.jpg
 
 # statusbar loop
 bash ~/.statusbar &
